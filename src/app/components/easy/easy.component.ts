@@ -61,14 +61,5 @@ export class EasyComponent implements OnInit {
     );
   }
 
-  public getAgeType(age: string): AgeType {
-    let type: AgeType;
-    this.ageType.forEach((ageType: AgeType) => {
-      if (ageType.ageMax > age && ageType.ageMin < age) type = ageType;
-      return;
-    });
-    return type;
-  }
-
   public mapUser(user: User) {}
 }
