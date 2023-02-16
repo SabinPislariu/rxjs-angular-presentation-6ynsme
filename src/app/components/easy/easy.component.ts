@@ -1,15 +1,7 @@
 import { getAllChanges } from '@angular/cdk/schematics/update-tool/version-changes';
 import { ReturnStatement } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import {
-  forkJoin,
-  map,
-  mergeMap,
-  shareReplay,
-  of,
-  finalize,
-  combineLatest,
-} from 'rxjs';
+import { shareReplay, combineLatest } from 'rxjs';
 import { Age, AgeType, Identity, IdentityEnum, User } from '../../user.model';
 import { UserService } from '../../user.service';
 
@@ -28,14 +20,14 @@ interface UserWithDetails {
 export class EasyComponent implements OnInit {
   private nameOrder = 1;
   private idOrder = 1;
-
+  private _pristine$;
   public usersPristine: UserWithDetails[] = [];
   public users: UserWithDetails[] = [];
   private ageType: AgeType[] = [];
   constructor(private readonly _userService: UserService) {}
 
   ngOnInit() {
-    combineLatest([
+    this._pristine$ = combineLatest([
       this._userService.getUsers(),
       this._userService.getAge(),
       this._userService.getAgeType(),
@@ -86,4 +78,5 @@ export class EasyComponent implements OnInit {
         : -1 * this.idOrder;
     });
   }
+  private reset() {}
 }
