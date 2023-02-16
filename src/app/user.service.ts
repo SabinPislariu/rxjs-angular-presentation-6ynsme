@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { filter, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Age, AgeType, Identity, User } from './user.model';
 
@@ -63,11 +63,10 @@ export class UserService {
     );
   }
 
-  getAgeTypeById(id: number): Observable<AgeType> {
-    const url = `${API.agesType}/${id}`;
-    return this.http.get<AgeType>(url).pipe(
-      tap((_) => this.log(`fetched AgeType for id=${id}`)),
-      catchError(this.handleError<AgeType>(`getAgeType id=${id}`))
+  getAgeType(): Observable<AgeType[]> {
+    return this.http.get<AgeType[]>(API.users).pipe(
+      tap((users) => this.log('fetched ageType', users)),
+      catchError(this.handleError<AgeType[]>('ageType', []))
     );
   }
 
