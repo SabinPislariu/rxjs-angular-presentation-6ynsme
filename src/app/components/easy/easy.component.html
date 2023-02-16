@@ -9,6 +9,7 @@
     <tr>
       <th>Name</th>
       <th>Age</th>
+      <th>Age Type</th>
       <th>identity</th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
     <tr *ngFor="let user of users">
       <th>{{ user.user.nume }}</th>
       <th>{{ user.age.age }}</th>
+      <th>{{ user.ageType.type }}</th>
       <th>{{ user.identity.type }}</th>
     </tr>
   </tbody>

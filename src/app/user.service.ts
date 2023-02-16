@@ -46,6 +46,13 @@ export class UserService {
     );
   }
 
+  getAge(): Observable<Age[]> {
+    return this.http.get<Age[]>(API.ages).pipe(
+      tap((ages) => this.log('fetched Age', ages)),
+      catchError(this.handleError<Age[]>('getUsers', []))
+    );
+  }
+
   /** GET user by id. Will 404 if id not found */
   getAgeById(id: number): Observable<Age> {
     const url = `${API.ages}/${id}`;
@@ -64,9 +71,16 @@ export class UserService {
   }
 
   getAgeType(): Observable<AgeType[]> {
-    return this.http.get<AgeType[]>(API.users).pipe(
+    return this.http.get<AgeType[]>(API.agesType).pipe(
       tap((users) => this.log('fetched ageType', users)),
       catchError(this.handleError<AgeType[]>('ageType', []))
+    );
+  }
+
+  getIdentity(): Observable<Identity[]> {
+    return this.http.get<Identity[]>(API.identity).pipe(
+      tap((users) => this.log('fetched identity', users)),
+      catchError(this.handleError<Identity[]>('identity', []))
     );
   }
 
