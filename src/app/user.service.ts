@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from './user.model';
+import { Age, AgeType, Identity, User } from './user.model';
 
 export const API = {
   users: 'api/users',
@@ -43,6 +43,31 @@ export class UserService {
     return this.http.get<User>(url).pipe(
       tap((_) => this.log(`fetched user id=${id}`)),
       catchError(this.handleError<User>(`getUser id=${id}`))
+    );
+  }
+
+  /** GET user by id. Will 404 if id not found */
+  getAgeById(id: number): Observable<Age> {
+    const url = `${API.ages}/${id}`;
+    return this.http.get<Age>(url).pipe(
+      tap((_) => this.log(`fetched age for id=${id}`)),
+      catchError(this.handleError<Age>(`getAge id=${id}`))
+    );
+  }
+
+  getIdentityById(id: number): Observable<Identity> {
+    const url = `${API.identity}/${id}`;
+    return this.http.get<Identity>(url).pipe(
+      tap((_) => this.log(`fetched identity for id=${id}`)),
+      catchError(this.handleError<Identity>(`getIdentity id=${id}`))
+    );
+  }
+
+  getAgeTypeById(id: number): Observable<AgeType> {
+    const url = `${API.agesType}/${id}`;
+    return this.http.get<AgeType>(url).pipe(
+      tap((_) => this.log(`fetched AgeType for id=${id}`)),
+      catchError(this.handleError<AgeType>(`getAgeType id=${id}`))
     );
   }
 
