@@ -26,6 +26,10 @@ interface UserWithDetails {
   styleUrls: ['./easy.component.css'],
 })
 export class EasyComponent implements OnInit {
+  private nameOrder = 1;
+  private idOrder = 1;
+
+  public usersPristine: UserWithDetails[] = [];
   public users: UserWithDetails[] = [];
   private ageType: AgeType[] = [];
   constructor(private readonly _userService: UserService) {}
@@ -36,30 +40,50 @@ export class EasyComponent implements OnInit {
       this._userService.getAge(),
       this._userService.getAgeType(),
       this._userService.getIdentity(),
-    ]).subscribe(([users, ages, ageTypes, identities]) =>
-      users.forEach((user) => {
-        const age = ages.find((age) => age.id == user.id);
-        const identity = identities.find((identity) => identity.id == user.id);
-        const ageType = ageTypes.find(
-          (ageType) =>
-            parseInt(ageType.ageMax) >= parseInt(age.age) &&
-            parseInt(ageType.ageMin) <= parseInt(age.age)
-        );
-        this.users.push({
-          user: user,
-          identity:
-            identity != undefined
-              ? identity
-              : { id: user.id, type: IdentityEnum.Personal },
-          age: age != undefined ? age : { id: user.id, age: 'none' },
-          ageType:
-            ageType != undefined
-              ? ageType
-              : { type: 'antichitate', ageMin: '150', ageMax: '99999' },
-        });
-      })
-    );
+    ])
+      .pipe(shareReplay(1))
+      .subscribe(([users, ages, ageTypes, identities]) =>
+        users.forEach((user) => {
+          const age = ages.find((age) => age.id == user.id);
+          const identity = identities.find(
+            (identity) => identity.id == user.id
+          );
+          const ageType = ageTypes.find(
+            (ageType) =>
+              parseInt(ageType.ageMax) >= parseInt(age.age) &&
+              parseInt(ageType.ageMin) <= parseInt(age.age)
+          );
+          this.users.push({
+            user: user,
+            identity:
+              identity != undefined
+                ? identity
+                : { id: user.id, type: IdentityEnum.Personal },
+            age: age != undefined ? age : { id: user.id, age: 'none' },
+            ageType:
+              ageType != undefined
+                ? ageType
+                : { type: 'antichitate', ageMin: '150', ageMax: '99999' },
+          });
+        })
+      );
   }
 
-  public mapUser(user: User) {}
+  public orderByName() {
+    this.nameOrder = -1 * this.nameOrder;
+    this.users = this.users.sort((firstUser, secondUser) => {
+      return firstUser.user.nume < secondUser.user.nume
+        ? this.nameOrder * 1
+        : this.nameOrder * -1;
+    });
+  }
+
+  public orderById() {
+    this.idOrder = -1 * this.idOrder;
+    this.users = this.users.sort((firstUser, secondUser) => {
+      return parseInt(firstUser.age.age) < parseInt(secondUser.age.age)
+        ? 1 * this.idOrder
+        : -1 * this.idOrder;
+    });
+  }
 }
