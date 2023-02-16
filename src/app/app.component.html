@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/easy" routerLinkActive="active-link"
+          >Easy</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link blue"
+          routerLink="/medium"
+          routerLinkActive="active-link"
+          >Medium</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link red"
+          routerLink="/hard"
+          routerLinkActive="active-link"
+          >Hard</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link black"
+          routerLink="/extream"
+          routerLinkActive="active-link"
+          >Extreme</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<main class="page_main">
+  <router-outlet></router-outlet>
+</main>

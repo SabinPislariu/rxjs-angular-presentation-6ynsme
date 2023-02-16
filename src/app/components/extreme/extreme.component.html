@@ -1,0 +1,73 @@
+<!-- After you are finished, feel free to remove the exercise definition -->
+<!-- You can find all the exercise also in the readme.md file -->
+<!-- Try to play with css to make the application preaty -->
+
+<h3 class="page-title">Exercise extreme</h3>
+<div class="acc">
+  <div class="container">
+    <label for="chk-1">
+      <input id="chk-1" type="checkbox" />
+      <div class="title">
+        <h3>Add an input that accepts only strings</h3>
+      </div>
+      <div class="content">
+        <ul class="list-group">
+          <li class="list-group-item"></li>
+          <li class="list-group-item">
+            If the string is not included in the name of the users, display an
+            error: "Error: The name is not found, Please try a different query"
+          </li>
+          <li class="list-group-item">
+            Otherwise if it exists, check if the results found can be displayed
+            by searching in blackList
+          </li>
+          <li class="list-group-item">
+            For user id that is found in blackList, show and error: "Error: The
+            user that you search can not be displayed. Insuficient permissions.
+          </li>
+          <li class="list-group-item">
+            If the user doesn't exist in blackList, get the age and display it
+            in a table with the id, the name of the user and a buttons
+          </li>
+          <li class="list-group-item">
+            If all the condition are ok display the info gotten until now (name
+            with age and id) and 2 buttons
+          </li>
+          <li class="list-group-item">
+            The button will be "More info", and when clicked, it will show in an
+            alert, the age type and identity of the user
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Button</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row">user id</td>
+                  <td>user name</td>
+                  <td>user age</td>
+                  <td>button: get more info</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li class="list-group-item">
+            All errors that appear on screen should remain on there for exactly
+            15 sec.
+          </li>
+          <li class="list-group-item">
+            All the errors when appear should remain on the screen for only 15
+            sec.
+          </li>
+        </ul>
+      </div>
+    </label>
+  </div>
+  <div class="alert alert-info" role="alert">
+    Hint: When the user types again in the input, all the data is refreshed
+  </div>
+</div>
