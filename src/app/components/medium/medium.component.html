@@ -1,42 +1,12 @@
-<!-- After you are finished, feel free to remove the exercise definition -->
-<!-- You can find all the exercise also in the readme.md file -->
-<!-- Try to play with css to make the application preaty -->
-
-<h3 class="page-title">Exercise Medium</h3>
-<div class="acc">
-  <div class="container">
-    <label for="chk-1">
-      <input id="chk-1" type="checkbox" />
-      <div class="title">
-        <h3>
-          Display all users that are not contained in blackList, in a table
-        </h3>
-      </div>
-      <div class="content">
-        <ul class="list-group">
-          <li class="list-group-item">
-            The table should contain field id and field name
-          </li>
-        </ul>
-      </div>
-    </label>
-    <label for="chk-2">
-      <input id="chk-2" type="checkbox" />
-      <div class="title">
-        <h3>Click on the table</h3>
-      </div>
-      <div class="content">
-        <ul class="list-group">
-          <li class="list-group-item">
-            A click on a user will display in an alert: the age of that user and
-            in what category of age that user is
-          </li>
-        </ul>
-      </div>
-    </label>
-  </div>
-  <div class="alert alert-info" role="alert">
-    Hint: You should not request the whole age database, you should just get the
-    value that you need
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <th (click) = "showAlert(user.id)">{{ user.nume }}</th>
+    </tr>
+  </tbody>
+</table>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { filter, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Age, AgeType, Identity, User } from './user.model';
+import { Age, AgeType, Identity, User, UserId } from './user.model';
 
 export const API = {
   users: 'api/users',
@@ -81,6 +81,13 @@ export class UserService {
     return this.http.get<Identity[]>(API.identity).pipe(
       tap((users) => this.log('fetched identity', users)),
       catchError(this.handleError<Identity[]>('identity', []))
+    );
+  }
+
+  getBlackListUsers(): Observable<UserId[]> {
+    return this.http.get<UserId[]>(API.blackList).pipe(
+      tap((users) => this.log('blacklist fetched', users)),
+      catchError(this.handleError<UserId[]>('blacklist', []))
     );
   }
 
