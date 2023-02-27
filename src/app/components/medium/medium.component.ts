@@ -46,7 +46,7 @@ export class MediumComponent implements OnInit {
             parseInt(ageType.ageMax) >= parseInt(age.age) &&
             parseInt(ageType.ageMin) <= parseInt(age.age)
         );
-        alert('age ' + age.age + ' Age Type ' + ageType.type);
+        alert('age= ' + age.age + '\n' + 'Age Type= ' + ageType.type);
       });
   }
 }
