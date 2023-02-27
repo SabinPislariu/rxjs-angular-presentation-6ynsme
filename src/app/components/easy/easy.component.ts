@@ -20,13 +20,38 @@ interface UserWithDetails {
 export class EasyComponent implements OnInit {
   private nameOrder = 1;
   private idOrder = 1;
-  private _pristine$;
   public usersPristine: UserWithDetails[] = [];
   public users: UserWithDetails[] = [];
   private ageType: AgeType[] = [];
   constructor(private readonly _userService: UserService) {}
 
   ngOnInit() {
+    this.getOrders();
+  }
+
+  public orderByName() {
+    this.nameOrder = -1 * this.nameOrder;
+    this.users = this.users.sort((firstUser, secondUser) => {
+      return firstUser.user.nume < secondUser.user.nume
+        ? this.nameOrder * 1
+        : this.nameOrder * -1;
+    });
+  }
+
+  public orderById() {
+    this.idOrder = -1 * this.idOrder;
+    this.users = this.users.sort((firstUser, secondUser) => {
+      return parseInt(firstUser.age.age) < parseInt(secondUser.age.age)
+        ? 1 * this.idOrder
+        : -1 * this.idOrder;
+    });
+  }
+  public reset() {
+    this.users = [];
+    this.getOrders();
+  }
+
+  private getOrders() {
     combineLatest([
       this._userService.getUsers(),
       this._userService.getAge(),
@@ -60,23 +85,4 @@ export class EasyComponent implements OnInit {
         })
       );
   }
-
-  public orderByName() {
-    this.nameOrder = -1 * this.nameOrder;
-    this.users = this.users.sort((firstUser, secondUser) => {
-      return firstUser.user.nume < secondUser.user.nume
-        ? this.nameOrder * 1
-        : this.nameOrder * -1;
-    });
-  }
-
-  public orderById() {
-    this.idOrder = -1 * this.idOrder;
-    this.users = this.users.sort((firstUser, secondUser) => {
-      return parseInt(firstUser.age.age) < parseInt(secondUser.age.age)
-        ? 1 * this.idOrder
-        : -1 * this.idOrder;
-    });
-  }
-  public reset() {}
 }
