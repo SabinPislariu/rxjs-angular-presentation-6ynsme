@@ -22,13 +22,17 @@ export class MediumComponent implements OnInit {
       .pipe(shareReplay(1), take(1))
       .subscribe(([users, blacklistId, ageTypes]) => {
         this.ageTypes = ageTypes;
-        users.forEach((user) =>
+        users.forEach((user) => {
+          let isOnTheList = false;
           blacklistId.forEach((blacklistId) => {
             if (user.id == blacklistId.id) {
-              this.users.push(user);
+              isOnTheList = true;
             }
-          })
-        );
+          });
+          if (isOnTheList == false) {
+            this.users.push(user);
+          }
+        });
       });
   }
 

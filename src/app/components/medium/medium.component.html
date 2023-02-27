@@ -6,7 +6,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of users">
-      <th (click) = "showAlert(user.id)">{{ user.nume }}</th>
+      <th (click)="showAlert(user.id)">{{ user.nume }}</th>
+      <th>{{ user.id }}</th>
     </tr>
   </tbody>
 </table>
