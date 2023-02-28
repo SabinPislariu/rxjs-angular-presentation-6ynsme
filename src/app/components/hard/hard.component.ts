@@ -20,7 +20,7 @@ export class HardComponent implements OnInit {
       .subscribe((blackListUsers) => (this._blackList = blackListUsers));
   }
 
-  public validateForm(id:number) {
+  public validateForm() {
     let x = document.forms['myForm']['fname'].value;
     if (x < 0 || x > 40) {
       document.getElementById('alrt').innerHTML =
@@ -35,9 +35,21 @@ export class HardComponent implements OnInit {
         document.getElementById('alrt').innerHTML = '';
       }, 10000);
     } else {
-      const isOnBlackList = this._blackList.some((idObj) => { id ==idObj.id 
-      })
+      let id = (<HTMLInputElement>document.getElementById('input')).value;
+      const isOnBlackList = this._blackList.some((idObj) => {
+        parseInt(x) === idObj.id;
+        return true;
+      });
+      console.log(isOnBlackList);
+      if (isOnBlackList) {
+        document.getElementById('alrt').innerHTML =
+          '<b>The user is on blackList, you do not have permision</b>';
+        setTimeout(function () {
+          document.getElementById('alrt').innerHTML = '';
+        }, 10000);
+      } else {
+
+      }
     }
   }
 }
-
