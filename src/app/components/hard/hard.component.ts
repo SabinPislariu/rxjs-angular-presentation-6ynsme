@@ -20,7 +20,7 @@ export class HardComponent implements OnInit {
       .subscribe((blackListUsers) => (this._blackList = blackListUsers));
   }
 
-  public validateForm() {
+  public validateForm(id:number) {
     let x = document.forms['myForm']['fname'].value;
     if (x < 0 || x > 40) {
       document.getElementById('alrt').innerHTML =
@@ -35,6 +35,8 @@ export class HardComponent implements OnInit {
         document.getElementById('alrt').innerHTML = '';
       }, 10000);
     } else {
+      const isOnBlackList = this._blackList.some((idObj) => { id ==idObj.id 
+      })
     }
   }
 }
