@@ -1,5 +1,6 @@
+import { identifierName } from '@angular/compiler/src/compile_metadata';
 import { Component, OnInit } from '@angular/core';
-import { first, shareReplay } from 'rxjs';
+import { combineLatest, first, shareReplay } from 'rxjs';
 import { UserAge, UserId } from '../../user.model';
 import { UserService } from '../../user.service';
 
@@ -9,7 +10,6 @@ import { UserService } from '../../user.service';
   styleUrls: ['./hard.component.css'],
 })
 export class HardComponent implements OnInit {
-  public user: UserAge;
   private _blackList: UserId[] = [];
   constructor(private readonly _userService: UserService) {}
 
@@ -21,35 +21,53 @@ export class HardComponent implements OnInit {
   }
 
   public validateForm() {
-    let x = document.forms['myForm']['fname'].value;
-    if (x < 0 || x > 40) {
-      document.getElementById('alrt').innerHTML =
-        '<b>Select Another Number</b>';
-      setTimeout(function () {
-        document.getElementById('alrt').innerHTML = '';
-      }, 10000);
-    } else if (isNaN(x) || x == '') {
-      document.getElementById('alrt').innerHTML =
-        '<b>Please insert a number</b>';
-      setTimeout(function () {
-        document.getElementById('alrt').innerHTML = '';
-      }, 10000);
+    let id = document.forms['myForm']['fname'].value;
+    if (id < 0 || id > 40) {
+      this._handleNumberRestriction();
+    } else if (isNaN(id) || id == '') {
+      this._handleNotNumberRestriction();
     } else {
-      let id = (<HTMLInputElement>document.getElementById('input')).value;
       const isOnBlackList = this._blackList.some((idObj) => {
-        parseInt(x) === idObj.id;
-        return true;
+        return parseInt(id) == idObj.id;
       });
-      console.log(isOnBlackList);
       if (isOnBlackList) {
-        document.getElementById('alrt').innerHTML =
-          '<b>The user is on blackList, you do not have permision</b>';
-        setTimeout(function () {
-          document.getElementById('alrt').innerHTML = '';
-        }, 10000);
+        this._handleBlackListRestriction();
       } else {
-
+        this._getNameAndAge(parseInt(id));
       }
     }
+  }
+
+  private _handleNumberRestriction() {
+    document.getElementById('alrt').innerHTML = '<b>Select Another Number</b>';
+    setTimeout(function () {
+      document.getElementById('alrt').innerHTML = '';
+    }, 10000);
+  }
+
+  private _handleNotNumberRestriction() {
+    document.getElementById('alrt').innerHTML = '<b>Please insert a number</b>';
+    setTimeout(function () {
+      document.getElementById('alrt').innerHTML = '';
+    }, 10000);
+  }
+
+  private _handleBlackListRestriction() {
+    document.getElementById('alrt').innerHTML =
+      '<b>The user is on blackList, you do not have permision</b>';
+    setTimeout(function () {
+      document.getElementById('alrt').innerHTML = '';
+    }, 10000);
+  }
+
+  private _getNameAndAge(id) {
+    combineLatest([
+      this._userService.getAgeById(id),
+      this._userService.getUserById(id),
+    ])
+      .pipe(first())
+      .subscribe(([age, user]) =>
+        alert('user ' + user.nume + '\n' + 'has age of ' + age.age)
+      );
   }
 }
