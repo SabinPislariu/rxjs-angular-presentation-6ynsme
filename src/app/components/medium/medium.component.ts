@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Age, AgeType, User } from '../../user.model';
 import { UserService } from '../../user.service';
-import { shareReplay, combineLatest, Observable, take } from 'rxjs';
+import { shareReplay, combineLatest, Observable, take, first } from 'rxjs';
 
 @Component({
   selector: 'app-medium',
@@ -17,23 +17,23 @@ export class MediumComponent implements OnInit {
     combineLatest([
       this._userService.getUsers(),
       this._userService.getBlackListUsers(),
-      this._userService.getAgeType(),
     ])
       .pipe(shareReplay(1), take(1))
-      .subscribe(([users, blacklistId, ageTypes]) => {
-        this.ageTypes = ageTypes;
+      .subscribe(([users, blacklistId]) => {
         users.forEach((user) => {
           let isOnTheList = false;
-          blacklistId.forEach((blacklistId) => {
-            if (user.id == blacklistId.id) {
-              isOnTheList = true;
-            }
+          isOnTheList = blacklistId.some((blacklistId) => {
+            return user.id == blacklistId.id;
           });
-          if (isOnTheList == false) {
+          if (!isOnTheList) {
             this.users.push(user);
           }
         });
       });
+    this._userService
+      .getAgeType()
+      .pipe(first())
+      .subscribe((ageTypes) => (this.ageTypes = ageTypes));
   }
 
   public showAlert(id: number) {
